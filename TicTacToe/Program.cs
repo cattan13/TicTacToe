@@ -4,6 +4,7 @@ namespace TicTacToe
 {
     class Program
     {
+        // Variables
         private static string[,] gameBoard = new string[3, 3];
         private static string userSymbol = "X";
         private static string systemSymbol = "O";
@@ -11,6 +12,7 @@ namespace TicTacToe
         private static DateTime startTime;
         static void Main(string[] args)
         {
+            // Main menu
             Console.WriteLine("Welcome to Tic-Tac-Toe!");
             Console.WriteLine();
             Console.WriteLine("1. Start New Game");
@@ -19,7 +21,7 @@ namespace TicTacToe
             Console.Write("Enter your choice: ");
             string menuChoice = Console.ReadLine();
 
-            while (menuChoice != "2")
+            while (menuChoice != "2") // Exit program
             {
                 switch (menuChoice)
                 {
@@ -27,10 +29,11 @@ namespace TicTacToe
                         StartNewGame();
                         break;
                     default:
-                        Console.WriteLine("Invalid choice. Please enter 1 or 2.");
+                        Console.WriteLine("Invalid choice. Please enter 1 or 2."); // If user enters anything besides 1 or 2
                         break;
                 }
 
+                
                 Console.WriteLine();
                 Console.WriteLine("1. Start New Game");
                 Console.WriteLine("2. Exit");
@@ -50,7 +53,7 @@ namespace TicTacToe
             PlayGame();
         }
 
-        private static int GetUserGoesFirstChoice()
+        private static int GetUserGoesFirstChoice() // Ask user if they want to go first
         {
             Console.WriteLine();
             Console.WriteLine("Do you want to go first?");
@@ -69,7 +72,7 @@ namespace TicTacToe
             return int.Parse(choice);
         }
 
-        private static string GetUserSymbolChoice()
+        private static string GetUserSymbolChoice() // Ask user which symbol they want to use
         {
             Console.WriteLine();
             Console.WriteLine("Which symbol do you want to use?");
@@ -87,7 +90,7 @@ namespace TicTacToe
             }
             return (choice == "1") ? "X" : "O";
         }
-        private static void InitializeBoard()
+        private static void InitializeBoard() // Initalize game board
         {
             for (int i = 0; i < 3; i++)
             {
@@ -98,7 +101,7 @@ namespace TicTacToe
             }
         }
 
-        private static void PlayGame()
+        private static void PlayGame() // Start game
         {
             Console.WriteLine();
             Console.WriteLine("Starting game...");
@@ -108,9 +111,9 @@ namespace TicTacToe
             bool gameOver = false;
             int currentPlayer = userGoesFirst;
 
-            while (!gameOver)
+            while (!gameOver) // Gameplay
             {
-                if (currentPlayer == 1)
+                if (currentPlayer == 1) // This is the program user
                 {
                     Console.WriteLine("Your turn. Enter row and column (ex. 2 2 for center cell): ");
                     string userMove = Console.ReadLine();
@@ -143,7 +146,7 @@ namespace TicTacToe
                 DisplayBoard();
             }
         }
-        private static void DisplayBoard()
+        private static void DisplayBoard() // Display game board
         {
             Console.WriteLine();
             Console.WriteLine(" {0} | {1} | {2} ", gameBoard[0, 0], gameBoard[0, 1], gameBoard[0, 2]);
