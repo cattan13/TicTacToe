@@ -6,3 +6,11 @@ C:\WORKING\jeff\TicTacToe\TicTacToe\TicTacToe\obj\Debug\TicTacToe.csproj.Suggest
 C:\WORKING\jeff\TicTacToe\TicTacToe\TicTacToe\obj\Debug\TicTacToe.csproj.CoreCompileInputs.cache
 C:\WORKING\jeff\TicTacToe\TicTacToe\TicTacToe\obj\Debug\TicTacToe.exe
 C:\WORKING\jeff\TicTacToe\TicTacToe\TicTacToe\obj\Debug\TicTacToe.pdb
+C:\Users\codyc\source\repos\cattan13\TicTacToe\src\TicTacToe\obj\Debug\TicTacToe.csproj.AssemblyReference.cache
+C:\Users\codyc\source\repos\cattan13\TicTacToe\src\TicTacToe\obj\Debug\TicTacToe.csproj.SuggestedBindingRedirects.cache
+C:\Users\codyc\source\repos\cattan13\TicTacToe\src\TicTacToe\obj\Debug\TicTacToe.csproj.CoreCompileInputs.cache
+C:\Users\codyc\source\repos\cattan13\TicTacToe\src\TicTacToe\obj\Debug\TicTacToe.exe
+C:\Users\codyc\source\repos\cattan13\TicTacToe\src\TicTacToe\obj\Debug\TicTacToe.pdb
+C:\Users\codyc\source\repos\cattan13\TicTacToe\src\TicTacToe\bin\Debug\TicTacToe.exe.config
+C:\Users\codyc\source\repos\cattan13\TicTacToe\src\TicTacToe\bin\Debug\TicTacToe.exe
+C:\Users\codyc\source\repos\cattan13\TicTacToe\src\TicTacToe\bin\Debug\TicTacToe.pdb
