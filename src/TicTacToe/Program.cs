@@ -8,7 +8,7 @@ namespace TicTacToe
         private static string[,] gameBoard = new string[3, 3];
         private static string userSymbol = "X";
         private static string systemSymbol = "O";
-        private static int userGoesFirst = 0;
+        private static string userGoesFirst = "";
         private static DateTime startTime;
         static void Main(string[] args)
         {
@@ -53,42 +53,40 @@ namespace TicTacToe
             PlayGame();
         }
 
-        private static int GetUserGoesFirstChoice() // Ask user if they want to go first
+        private static string GetUserGoesFirstChoice() // Ask user if they want to go first
         {
             Console.WriteLine();
             Console.WriteLine("Do you want to go first?");
-            Console.WriteLine("1. Yes");
-            Console.WriteLine("2. No");
+            Console.WriteLine("Yes or No");
             Console.WriteLine();
             Console.Write("Enter your choice: ");
             string choice = Console.ReadLine();
-            while (choice != "1" && choice != "2")
+            while (choice != "Yes" && choice != "No")
             {
-                Console.WriteLine("Invalid choice. Please enter 1 or 2.");
+                Console.WriteLine("Invalid choice. Please enter Yes or No.");
                 Console.WriteLine();
                 Console.Write("Enter your choice: ");
                 choice = Console.ReadLine();
             }
-            return int.Parse(choice);
+            return (choice);
         }
 
         private static string GetUserSymbolChoice() // Ask user which symbol they want to use
         {
             Console.WriteLine();
             Console.WriteLine("Which symbol do you want to use?");
-            Console.WriteLine("1. X");
-            Console.WriteLine("2. O");
+            Console.WriteLine("Enter X or O");
             Console.WriteLine();
             Console.Write("Enter your choice: ");
             string choice = Console.ReadLine();
-            while (choice != "1" && choice != "2")
+            while (choice != "X" && choice != "O")
             {
-                Console.WriteLine("Invalid choice. Please enter 1 or 2.");
+                Console.WriteLine("Invalid choice. Please enter X or O.");
                 Console.WriteLine();
                 Console.Write("Enter your choice: ");
                 choice = Console.ReadLine();
             }
-            return (choice == "1") ? "X" : "O";
+            return (choice == "X") ? "X" : "O";
         }
         private static void InitializeBoard() // Initalize game board
         {
@@ -106,14 +104,21 @@ namespace TicTacToe
             Console.WriteLine();
             Console.WriteLine("Starting game...");
             Console.WriteLine();
+            Console.WriteLine("Board coordinates");
+            Console.WriteLine(" 1 1 | 1 2 | 1 3 ");
+            Console.WriteLine("-----|-----|-----");
+            Console.WriteLine(" 2 1 | 2 2 | 2 3 ");
+            Console.WriteLine("-----|-----|-----");
+            Console.WriteLine(" 3 1 | 3 2 | 3 3 ");
+            Console.WriteLine(); 
 
             startTime = DateTime.Now;
             bool gameOver = false;
-            int currentPlayer = userGoesFirst;
+            string currentPlayer = userGoesFirst;
 
             while (!gameOver) // Gameplay
             {
-                if (currentPlayer == 1) // This is the program user
+                if (currentPlayer == "Yes") // This is the program user
                 {
                     Console.WriteLine("Your turn. Enter row and column (ex. 2 2 for center cell): ");
                     string userMove = Console.ReadLine();
@@ -127,7 +132,7 @@ namespace TicTacToe
                         col = int.Parse(userMove[2].ToString()) - 1;
                     }
                     gameBoard[row, col] = userSymbol;
-                    currentPlayer = 2;
+                    currentPlayer = "No";
                 }
 
                 else
@@ -141,9 +146,9 @@ namespace TicTacToe
                         col = new Random().Next(0, 3);
                     }
                     gameBoard[row, col] = systemSymbol;
-                    currentPlayer = 1;
+                    DisplayBoard();
+                    currentPlayer = "Yes";
                 }
-                DisplayBoard();
             }
         }
         private static void DisplayBoard() // Display game board
