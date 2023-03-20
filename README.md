@@ -8,5 +8,3 @@ The TicTacToe program currently allows users to select their symbol and play tic
 ## Room for improvement:
 * To do:
     Premature exit
-    Display total games played
-    Display average game time
