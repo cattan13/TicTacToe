@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace TicTacToe
 {
@@ -9,17 +11,19 @@ namespace TicTacToe
         private static string userSymbol = "x";
         private static string systemSymbol = "o";
         private static string userGoesFirst = "";
-        private static DateTime startTime;
+        private static DateTime gameTime;
+        private static DateTime appTime;
+        private static List<TimeSpan> gameDurations = new List<TimeSpan>();
+
         static void Main(string[] args)
         {
+            int gameCount = 0; // Initialize game count variable
+
+            // Record start time
+            appTime = DateTime.Now;
+
             // Main menu
-            Console.WriteLine("\n" +
-                "Welcome to Tic-Tac-Toe!\n" +
-                "\n" +
-                "1. Start New Game\n" +
-                "2. Exit\n" +
-                "\n" +
-                "Enter your choice: ");
+            Print("Welcome to Tic-Tac-Toe!\n\n1. Start New Game\n2. Exit\n\nEnter your choice: ");
             string menuChoice = Console.ReadLine();
 
             while (menuChoice != "2") // Exit program
@@ -28,23 +32,31 @@ namespace TicTacToe
                 {
                     case "1":
                         StartNewGame();
+                        gameCount++; // Increment game count
                         break;
                     default:
-                        Console.WriteLine("\n" +
-                            "Invalid choice. Please enter 1 or 2."); // If user enters anything besides 1 or 2
+                        Print("Invalid choice. Please enter 1 or 2.");
                         break;
                 }
 
-                
-                Console.WriteLine("\n" +
-                    "1. Start New Game\n" +
-                    "2. Exit\n" +
-                    "\n" +
-                    "Enter your choice: ");
+                Print("\n1. Start New Game\n2. Exit\n\nEnter your choice: ");
                 menuChoice = Console.ReadLine();
             }
-            Console.WriteLine("\n" +
-                "Exiting Tic-Tac-Toe...");
+
+            // Calculate average game duration
+            TimeSpan avgDuration = TimeSpan.Zero;
+            if (gameDurations.Count > 0)
+            {
+                avgDuration = new TimeSpan(gameDurations.Sum(t => t.Ticks) / gameDurations.Count);
+            }
+            TimeSpan appduration = DateTime.Now - appTime;
+
+            // Print results
+            Print("\nTotal application run time: " + appduration.ToString(@"mm\:ss"));
+            Print("\nAverage game run time: " + avgDuration.ToString(@"mm\:ss"));
+            Print("\nTotal number of games played: " + gameCount);// Print game count
+            Print("\nPress any key to exit Tic-Tac-Toe");
+            Console.ReadKey();
         }
 
         private static void StartNewGame()
@@ -58,18 +70,11 @@ namespace TicTacToe
 
         private static string GetUserGoesFirstChoice() // Ask user if they want to go first
         {
-            Console.WriteLine("\n" +
-                "Do you want to go first?\n" +
-                "Yes or No\n" +
-                "\n" +
-                "Enter your choice: ");
+            Print("Do you want to go first?\nYes or No\n\nEnter your choice: ");
             string choice = Console.ReadLine().ToLower();
             while (choice != "yes" && choice != "y" && choice != "no" && choice != "n")
             {
-                Console.WriteLine("\n" +
-                    "Invalid choice. Please enter Yes or No.\n" +
-                    "\n" +
-                    "Enter your choice: ");
+                Print("Invalid choice. Please enter Yes or No.\n\nEnter your choice: ");
                 choice = Console.ReadLine().ToLower();
             }
             return (choice);
@@ -77,22 +82,16 @@ namespace TicTacToe
 
         private static string GetUserSymbolChoice() // Ask user which symbol they want to use
         {
-            Console.WriteLine("\n" +
-                "Which symbol do you want to use?\n" +
-                "Enter X or O\n" +
-                "\n" +
-                "Enter your choice: ");
+            Print("Which symbol do you want to use?\nEnter X or O\n\nEnter your choice: ");
             string choice = Console.ReadLine().ToLower();
             while (choice != "x" && choice != "o")
             {
-                Console.WriteLine("\n" +
-                    "Invalid choice. Please enter X or O.\n" +
-                    "\n" +
-                    "Enter your choice: ");
+                Print("Invalid choice. Please enter X or O.\n\nEnter your choice: ");
                 choice = Console.ReadLine().ToLower();
             }
             return (choice == "x") ? "x" : "o";
         }
+
         private static void InitializeBoard() // Initalize game board
         {
             for (int i = 0; i < 3; i++)
@@ -104,24 +103,14 @@ namespace TicTacToe
             }
         }
 
-        private static void PlayGame() // Start game
+        private static void PlayGame()
         {
-            Console.WriteLine("\n" +
-                "Starting game...\n" +
-                "\n" +
-                "Board coordinates\n" +
-                "\n" +
-                "1 1|1 2|1 3\n" +
-                "---|---|---\n" +
-                "2 1|2 2|2 3\n" +
-                "---|---|---\n" +
-                "3 1|3 2|3 3\n" +
-                "\n" +
-                "Your symbol: " + userSymbol.ToUpper());
-            Console.WriteLine("\n" +
-                "System symbol: " + systemSymbol.ToUpper());
+            Print("Starting game...\n\nBoard coordinates\n\n1 1|1 2|1 3\n---|---|---\n2 1|2 2|2 3\n---|---|---\n3 1|3 2|3 3\n\nYour symbol: " + userSymbol.ToUpper());
+            Print("\nSystem symbol: " + systemSymbol.ToUpper());
 
-            startTime = DateTime.Now;
+            // Record start time
+            gameTime = DateTime.Now;
+
             bool gameOver = false;
             string currentPlayer = userGoesFirst;
 
@@ -129,50 +118,167 @@ namespace TicTacToe
             {
                 if (currentPlayer == "yes" || currentPlayer == "y") // This is the program user
                 {
-                    Console.WriteLine("\n" + 
-                    "Your turn.\n" +
-                    "Enter row and column (ex. 2 2 for center cell): ");
-                    string userMove = Console.ReadLine();
-                    int row = int.Parse(userMove[0].ToString()) - 1;
-                    int col = int.Parse(userMove[2].ToString()) - 1;
-                    while (gameBoard[row, col] != " ")
-                    {
-                        Console.WriteLine("\n" +
-                            "Cell already filled. Enter another move: ");
-                        userMove = Console.ReadLine();
-                        row = int.Parse(userMove[0].ToString()) - 1;
-                        col = int.Parse(userMove[2].ToString()) - 1;
-                    }
-                    gameBoard[row, col] = userSymbol.ToUpper();
-                    currentPlayer = "no";
-                }
+                    Print("\nYour turn.\nEnter row and column numbers separated by a space (e.g. 1 2): ");
 
-                else
-                {
-                    Console.WriteLine("\n" +
-                        "System's turn.");
-                    int row = new Random().Next(0, 3);
-                    int col = new Random().Next(0, 3);
-                    while (gameBoard[row, col] != " ")
+                    string[] input = Console.ReadLine().Split();
+                    int row = int.Parse(input[0]) - 1;
+                    int column = int.Parse(input[1]) - 1;
+
+                    // Check if the move is valid
+                    if (row < 0 || row > 2 || column < 0 || column > 2)
                     {
-                        row = new Random().Next(0, 3);
-                        col = new Random().Next(0, 3);
+                        Print("Invalid move. Please enter values between 1 and 3.\n");
+                        continue;
                     }
-                    gameBoard[row, col] = systemSymbol.ToUpper();
-                    DisplayBoard();
+                    if (gameBoard[row, column] != " ")
+                    {
+                        Print("That space is already occupied. Please select a different space.\n");
+                        continue;
+                    }
+
+                    gameBoard[row, column] = userSymbol;
+                    currentPlayer = "system";
+                }
+                else // This is the system player
+                {
+                    Print("\nSystem's turn.\n");
+
+                    // Check if the system can win
+                    if (CheckForWin(systemSymbol))
+                    {
+                        Print("System wins!");
+                        gameOver = true;
+                        continue;
+                    }
+
+                    // Check if the user can win and block
+                    if (CheckForWin(userSymbol))
+                    {
+                        Print("System blocks!");
+                    }
+                    else
+                    {
+                        // Choose a random empty spot on the board
+                        Random random = new Random();
+                        int row = random.Next(0, 3);
+                        int column = random.Next(0, 3);
+                        while (gameBoard[row, column] != " ")
+                        {
+                            row = random.Next(0, 3);
+                            column = random.Next(0, 3);
+                        }
+                        gameBoard[row, column] = systemSymbol;
+                    }
+
+                    // Check if the game is a tie
+                    if (CheckForTie())
+                    {
+                        Print("It's a tie!");
+                        gameOver = true;
+                        continue;
+                    }
+
                     currentPlayer = "yes";
                 }
+
+                // Print the updated board
+                PrintBoard();
+
+                // Check if the game has been won
+                if (CheckForWin(userSymbol))
+                {
+                    Print("You win!");
+                    gameOver = true;
+                }
+                else if (CheckForWin(systemSymbol))
+                {
+                    Print("System wins!");
+                    gameOver = true;
+                }
+                else if (CheckForTie())
+                {
+                    Print("It's a tie!");
+                    gameOver = true;
+                }
+
             }
+
+            // Record end time
+            TimeSpan duration = DateTime.Now - gameTime;
+
+            // Add duration to list
+            gameDurations.Add(duration);
+
+
+            // Print the game duration
+            TimeSpan gduration = DateTime.Now - gameTime;
+            Print("\nGame duration: " + gduration.ToString(@"mm\:ss"));
         }
-        private static void DisplayBoard() // Display game board
+
+    private static bool CheckForWin(string symbol) // Check if someone has won
         {
-            Console.WriteLine("\n" +
-            " {0} | {1} | {2} ", gameBoard[0, 0], gameBoard[0, 1], gameBoard[0, 2]);
-            Console.WriteLine("---|---|---\n" +
-            " {0} | {1} | {2} ", gameBoard[1, 0], gameBoard[1, 1], gameBoard[1, 2]);
-            Console.WriteLine("---|---|---\n" +
-            " {0} | {1} | {2} \n", gameBoard[2, 0], gameBoard[2, 1], gameBoard[2, 2]);
-            Console.WriteLine();
+            // Check rows
+            for (int i = 0; i < 3; i++)
+            {
+                if (gameBoard[i, 0] == symbol && gameBoard[i, 1] == symbol && gameBoard[i, 2] == symbol)
+                {
+                    return true;
+                }
+            }
+
+            // Check columns
+            for (int i = 0; i < 3; i++)
+            {
+                if (gameBoard[0, i] == symbol && gameBoard[1, i] == symbol && gameBoard[2, i] == symbol)
+                {
+                    return true;
+                }
+            }
+
+            // Check diagonals
+            if (gameBoard[0, 0] == symbol && gameBoard[1, 1] == symbol && gameBoard[2, 2] == symbol)
+            {
+                return true;
+            }
+            if (gameBoard[0, 2] == symbol && gameBoard[1, 1] == symbol && gameBoard[2, 0] == symbol)
+            {
+                return true;
+            }
+            // No winner found
+            return false;
+        }
+
+        private static bool CheckForTie() // Check if the game is a tie
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if (gameBoard[i, j] == " ")
+                    {
+                        // Empty spot found, game is not a tie
+                        return false;
+                    }
+                }
+            }
+
+            // No empty spots found, game is a tie
+            return true;
+        }
+
+        private static void PrintBoard()
+        {
+            Print("\n   1   2   3 ");
+            Print("\n 1 " + gameBoard[0, 0] + " | " + gameBoard[0, 1] + " | " + gameBoard[0, 2]);
+            Print("\n  ---|---|---");
+            Print("\n 2 " + gameBoard[1, 0] + " | " + gameBoard[1, 1] + " | " + gameBoard[1, 2]);
+            Print("\n  ---|---|---");
+            Print("\n 3 " + gameBoard[2, 0] + " | " + gameBoard[2, 1] + " | " + gameBoard[2, 2] + "\n");
+        }
+
+        private static void Print(string message) // Print a message to the console
+        {
+            Console.Write(message);
         }
     }
 }
