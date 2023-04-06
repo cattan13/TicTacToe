@@ -105,7 +105,14 @@ namespace TicTacToe
 
         private static void PlayGame()
         {
-            Print("Starting game...\n\nBoard coordinates\n\n1 1|1 2|1 3\n---|---|---\n2 1|2 2|2 3\n---|---|---\n3 1|3 2|3 3\n\nYour symbol: " + userSymbol.ToUpper());
+            Print("Starting game...\n\nBoard coordinates");
+            Print("\nYour symbol: " + userSymbol.ToUpper());
+            Print("\n   1   2   3 ");
+            Print("\n 1 " + gameBoard[0, 0] + " | " + gameBoard[0, 1] + " | " + gameBoard[0, 2]);
+            Print("\n  ---|---|---");
+            Print("\n 2 " + gameBoard[1, 0] + " | " + gameBoard[1, 1] + " | " + gameBoard[1, 2]);
+            Print("\n  ---|---|---");
+            Print("\n 3 " + gameBoard[2, 0] + " | " + gameBoard[2, 1] + " | " + gameBoard[2, 2] + "\n");
             Print("\nSystem symbol: " + systemSymbol.ToUpper());
 
             // Record start time
