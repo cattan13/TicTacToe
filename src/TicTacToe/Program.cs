@@ -15,6 +15,7 @@ namespace TicTacToe
         private static DateTime appTime;
         private static List<TimeSpan> gameDurations = new List<TimeSpan>();
 
+
         static void Main(string[] args)
         {
             int gameCount = 0; // Initialize game count variable
@@ -33,6 +34,10 @@ namespace TicTacToe
                     case "1":
                         StartNewGame();
                         gameCount++; // Increment game count
+                        break;
+                    case "2":
+                        // Exit program
+                        ExitProgram();
                         break;
                     default:
                         Print("Invalid choice. Please enter 1 or 2.");
@@ -57,6 +62,12 @@ namespace TicTacToe
             Print("\nTotal number of games played: " + gameCount);// Print game count
             Print("\nPress any key to exit Tic-Tac-Toe");
             Console.ReadKey();
+        }
+
+        private static void ExitProgram()
+        {
+            Print("Exiting Tic-Tac-Toe...");
+            Environment.Exit(0);
         }
 
         private static void StartNewGame()
@@ -128,8 +139,18 @@ namespace TicTacToe
                     Print("\nYour turn.\nEnter row and column numbers separated by a space (e.g. 1 2): ");
 
                     string[] input = Console.ReadLine().Split();
-                    int row = int.Parse(input[0]) - 1;
-                    int column = int.Parse(input[1]) - 1;
+                    int row, column;
+
+                    // Check if the input is valid
+                    if (!int.TryParse(input[0], out row) || !int.TryParse(input[1], out column))
+                    {
+                        Print("Invalid input. Please enter two integers separated by a space.\n");
+                        continue;
+                    }
+
+                    // Convert row and column to zero-based indexing
+                    row--;
+                    column--;
 
                     // Check if the move is valid
                     if (row < 0 || row > 2 || column < 0 || column > 2)
@@ -222,37 +243,33 @@ namespace TicTacToe
             Print("\nGame duration: " + gduration.ToString(@"mm\:ss"));
         }
 
-    private static bool CheckForWin(string symbol) // Check if someone has won
+        private static bool CheckForWin(string symbol) // Check if someone has won
         {
-            // Check rows
-            for (int i = 0; i < 3; i++)
-            {
-                if (gameBoard[i, 0] == symbol && gameBoard[i, 1] == symbol && gameBoard[i, 2] == symbol)
-                {
-                    return true;
-                }
-            }
+            bool hasWon = false;
 
-            // Check columns
-            for (int i = 0; i < 3; i++)
+            // Check rows and columns
+            bool row1 = gameBoard[0, 0] == symbol && gameBoard[0, 1] == symbol && gameBoard[0, 2] == symbol;
+            bool row2 = gameBoard[1, 0] == symbol && gameBoard[1, 1] == symbol && gameBoard[1, 2] == symbol;
+            bool row3 = gameBoard[2, 0] == symbol && gameBoard[2, 1] == symbol && gameBoard[2, 2] == symbol;
+            bool col1 = gameBoard[0, 0] == symbol && gameBoard[1, 0] == symbol && gameBoard[2, 0] == symbol;
+            bool col2 = gameBoard[0, 1] == symbol && gameBoard[1, 1] == symbol && gameBoard[2, 1] == symbol;
+            bool col3 = gameBoard[0, 2] == symbol && gameBoard[1, 2] == symbol && gameBoard[2, 2] == symbol;
+
+            if (row1 || row2 || row3 || col1 || col2 || col3)
             {
-                if (gameBoard[0, i] == symbol && gameBoard[1, i] == symbol && gameBoard[2, i] == symbol)
-                {
-                    return true;
-                }
+                hasWon = true;
             }
 
             // Check diagonals
-            if (gameBoard[0, 0] == symbol && gameBoard[1, 1] == symbol && gameBoard[2, 2] == symbol)
+            bool diagonal1 = gameBoard[0, 0] == symbol && gameBoard[1, 1] == symbol && gameBoard[2, 2] == symbol;
+            bool diagonal2 = gameBoard[0, 2] == symbol && gameBoard[1, 1] == symbol && gameBoard[2, 0] == symbol;
+
+            if (diagonal1 || diagonal2)
             {
-                return true;
+                hasWon = true;
             }
-            if (gameBoard[0, 2] == symbol && gameBoard[1, 1] == symbol && gameBoard[2, 0] == symbol)
-            {
-                return true;
-            }
-            // No winner found
-            return false;
+
+            return hasWon;
         }
 
         private static bool CheckForTie() // Check if the game is a tie
