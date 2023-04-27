@@ -280,7 +280,7 @@ namespace TicTacToe
                 // Check if columns are empty
                 for (int j = 0; j < 3; j++)
                 {
-                    // Empty spot found if equal to 0
+                    // Empty spot found if equal to " "
                     if (gameBoard[i, j] == " ")
                     {
                         // Empty spot found, game is not a tie
