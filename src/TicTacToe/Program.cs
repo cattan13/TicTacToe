@@ -274,10 +274,13 @@ namespace TicTacToe
 
         private static bool CheckForTie() // Check if the game is a tie
         {
+            // Check if rows are empty
             for (int i = 0; i < 3; i++)
             {
+                // Check if columns are empty
                 for (int j = 0; j < 3; j++)
                 {
+                    // Empty spot found if equal to 0
                     if (gameBoard[i, j] == " ")
                     {
                         // Empty spot found, game is not a tie
