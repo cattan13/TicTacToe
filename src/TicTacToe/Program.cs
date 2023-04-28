@@ -255,6 +255,7 @@ namespace TicTacToe
             bool col2 = gameBoard[0, 1] == symbol && gameBoard[1, 1] == symbol && gameBoard[2, 1] == symbol;
             bool col3 = gameBoard[0, 2] == symbol && gameBoard[1, 2] == symbol && gameBoard[2, 2] == symbol;
 
+            // If any bool is true, there is a winner
             if (row1 || row2 || row3 || col1 || col2 || col3)
             {
                 hasWon = true;
@@ -264,6 +265,7 @@ namespace TicTacToe
             bool diagonal1 = gameBoard[0, 0] == symbol && gameBoard[1, 1] == symbol && gameBoard[2, 2] == symbol;
             bool diagonal2 = gameBoard[0, 2] == symbol && gameBoard[1, 1] == symbol && gameBoard[2, 0] == symbol;
 
+            // If any bool is true, there is a winner
             if (diagonal1 || diagonal2)
             {
                 hasWon = true;
