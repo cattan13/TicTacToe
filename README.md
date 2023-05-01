@@ -1,10 +1,6 @@
 # TicTacToe
 
-The TicTacToe program currently allows users to select their symbol and play tic-tac-toe against the system.
-
-## Issues
-* No way to exit prematurely other than throwing unhandled exception
-
-## Room for improvement:
-* To do:
-    Premature exit
+Full TicTacToe console application. All features working properly.
+Utilizes a two coordinate system for player input.
+System oppenent will randomly play in any empty spot.
+Program will track total program run time, game duration, average game duration, and how many games were played.
